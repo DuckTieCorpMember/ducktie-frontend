@@ -1,0 +1,14 @@
+body{
+  padding: 2rem;
+}
+
+.main{
+  background-color: rgb(210, 222, 245);
+  border-radius: 2rem;
+  height: 80vh;
+
+  display: flex;
+  justify-content: center;
+
+  box-shadow: 10px 10px 5px rgba(119, 126, 139, 0.299);
+}
