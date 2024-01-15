@@ -15,11 +15,16 @@ function OTPComponent(props: any) {
 
     return (
       <div className="otp-component-main">
-          <div className="otp-component-input-wrapper">
-              <div className="otp-component-input-input-wrapper">
-                  <input className='otp-component-input-input' maxLength={1} onKeyDown={(event) => inputKeyDown(event, 0)}></input>
-              </div>
-          </div>
+        <div className="otp-component-title">Enter the code ...</div>
+        <div className="otp-component-input-wrapper">
+            <div className="otp-component-input-wrapper">
+                <input className='otp-component-input-input' maxLength={1} onKeyDown={(event) => inputKeyDown(event, 0)}></input>
+                <input className='otp-component-input-input' maxLength={1} onKeyDown={(event) => inputKeyDown(event, 1)}></input>
+                <input className='otp-component-input-input' maxLength={1} onKeyDown={(event) => inputKeyDown(event, 2)}></input>
+                <input className='otp-component-input-input' maxLength={1} onKeyDown={(event) => inputKeyDown(event, 3)}></input>
+            </div>
+        </div>
+        <button className='otp-component-submit-button'>SUBMIT</button>
       </div>
     );
   }

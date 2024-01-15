@@ -1,14 +1,22 @@
-body{
-  padding: 2rem;
+button, input[type="submit"], input[type="reset"], input {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	/* cursor: pointer; */
+	outline: inherit;
 }
 
 .main{
-  background-color: rgb(210, 222, 245);
-  border-radius: 2rem;
-  height: 80vh;
+  height: 100vh;
+  width: 100vw;
 
   display: flex;
   justify-content: center;
+  align-items: center;
 
-  box-shadow: 10px 10px 5px rgba(119, 126, 139, 0.299);
+  background: linear-gradient(180deg, #D29FE3 0%, #5775C2 100%);
+
+  font-family: Inter, sans-serif;
 }
