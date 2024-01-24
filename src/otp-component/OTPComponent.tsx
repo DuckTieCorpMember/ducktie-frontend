@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import "./OTPComponent.css";
 import LoadingComponent from '../utilities/LoadingComponent/LoadingComponent';
+import SuccessComponent from '../utilities/SuccessComponent/SuccessComponent';
 
 function OTPComponent(props: any) {
     const inputWrapperRef = useRef<HTMLDivElement>(null)
@@ -63,7 +64,8 @@ function OTPComponent(props: any) {
 
     return (
       <div className="dt-otp-component-main">
-        <LoadingComponent hidden={!isSuccess}></LoadingComponent>
+        {/* <LoadingComponent text="Checking ..." hidden={!isSuccess}></LoadingComponent> */}
+        <SuccessComponent text="Approved!" hidden={!isSuccess}></SuccessComponent>
         <div className="dt-otp-component-main-wrapper" style={isSuccess ? { display: 'none' } : {}}>
           <div className="dt-otp-component-title">Enter the code ...</div>
           <div ref={inputWrapperRef} className="dt-otp-component-input-wrapper">
