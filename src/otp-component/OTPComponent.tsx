@@ -3,11 +3,14 @@ import "./OTPComponent.css";
 import LoadingComponent from '../utilities/LoadingComponent/LoadingComponent';
 import SuccessComponent from '../utilities/SuccessComponent/SuccessComponent';
 
+import { OTPStatus } from '../data';
+
 function OTPComponent(props: any) {
     const inputWrapperRef = useRef<HTMLDivElement>(null)
     const otpCode = props.otpCode.toString().split("");
     const [inputCode, setInputCode] = useState(["","","",""]);
-    const [isSuccess, setIsSuccess] = useState(false);
+    const [checkState, setCheckState] = useState(OTPStatus.INPUT);
+
     const isValid = useCallback(() => {
       for(let i=0; i<otpCode.length; i++){
         if(otpCode[i] !== inputCode[i]){
@@ -19,10 +22,18 @@ function OTPComponent(props: any) {
     }, [inputCode, otpCode])
 
     useEffect(() => {
-      if(isValid()){
-        setIsSuccess(true);
+      if(isValid() && checkState === OTPStatus.INPUT){
+        setCheckState(OTPStatus.CHECKING);  
+        return;   
       }
-    }, [inputCode, isValid])
+
+      if(checkState === OTPStatus.CHECKING){
+        const timeout = setTimeout(() => {
+          setCheckState(OTPStatus.SUCCESS);
+        }, 2000);
+        return () => clearTimeout(timeout);
+      }
+    }, [inputCode, checkState, isValid])
 
     const inputKeyDown = useCallback( async (event: any, id: number) => {
       console.log("KeyDown", event);
@@ -64,9 +75,9 @@ function OTPComponent(props: any) {
 
     return (
       <div className="dt-otp-component-main">
-        {/* <LoadingComponent text="Checking ..." hidden={!isSuccess}></LoadingComponent> */}
-        <SuccessComponent text="Approved!" hidden={!isSuccess}></SuccessComponent>
-        <div className="dt-otp-component-main-wrapper" style={isSuccess ? { display: 'none' } : {}}>
+        <LoadingComponent text="Checking ..." hidden={checkState !== OTPStatus.CHECKING}></LoadingComponent>
+        <SuccessComponent text="Approved!" hidden={checkState !== OTPStatus.SUCCESS}></SuccessComponent>
+        <div className="dt-otp-component-main-wrapper" style={checkState !== OTPStatus.INPUT ? { display: 'none' } : {}}>
           <div className="dt-otp-component-title">Enter the code ...</div>
           <div ref={inputWrapperRef} className="dt-otp-component-input-wrapper">
               <div className="dt-otp-component-input-wrapper">
