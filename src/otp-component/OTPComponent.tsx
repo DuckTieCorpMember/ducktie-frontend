@@ -10,10 +10,9 @@ import { OTPStatus } from '../data';
 function OTPComponent(props: any) {
     const inputWrapperRef = useRef<HTMLDivElement>(null)
     const otpCode = props.otpCode.toString().split("");
-    const [inputCode, setInputCode] = useState(["","","",""]);
+    const [inputCode, setInputCode] = useState(Array.from({ length: otpCode.length }, () => ''));
     const [checkState, setCheckState] = useState(OTPStatus.INPUT);
 
-    const [showFront, setShowFront] = useState(true);
     const cardRef = useRef(null);
 
     const isValid = useCallback(() => {
@@ -35,7 +34,7 @@ function OTPComponent(props: any) {
       if(checkState === OTPStatus.CHECKING){
         const timeout = setTimeout(() => {
           setCheckState(OTPStatus.SUCCESS);
-        }, 2000);
+        }, 3000);
         return () => clearTimeout(timeout);
       }
     }, [inputCode, checkState, isValid])
@@ -75,35 +74,35 @@ function OTPComponent(props: any) {
     }, [inputCode, otpCode]);
 
     const onChange = useCallback((event: ChangeEvent, id: number) => {
-      // console.log("change", event, id);
     }, []);
 
     return (
       <div>
         <div className="dt-otp-component-main">
-          <LoadingComponent text="Checking ..." hidden={checkState !== OTPStatus.CHECKING}></LoadingComponent>
-          <SuccessComponent text="Approved!" hidden={checkState !== OTPStatus.SUCCESS}></SuccessComponent>
-          <div className="dt-otp-component-main-wrapper" style={checkState !== OTPStatus.INPUT ? { display: 'none' } : {}}>
-            <div className="dt-otp-component-title">Enter the code ...</div>
-            <div ref={inputWrapperRef} className="dt-otp-component-input-wrapper">
-                <div className="dt-otp-component-input-wrapper">
-                    <input className='dt-otp-component-input-input' onChange={(event) => onChange(event, 0)} value={inputCode[0]} maxLength={1} onKeyDown={(event) => inputKeyDown(event, 0)}></input>
-                    <input className='dt-otp-component-input-input' onChange={(event) => onChange(event, 1)} value={inputCode[1]} maxLength={1} onKeyDown={(event) => inputKeyDown(event, 1)}></input>
-                    <input className='dt-otp-component-input-input' onChange={(event) => onChange(event, 2)} value={inputCode[2]} maxLength={1} onKeyDown={(event) => inputKeyDown(event, 2)}></input>
-                    <input className='dt-otp-component-input-input' onChange={(event) => onChange(event, 3)} value={inputCode[3]} maxLength={1} onKeyDown={(event) => inputKeyDown(event, 3)}></input>
+          <CSSTransition in={checkState === OTPStatus.INPUT || checkState === OTPStatus.SUCCESS} timeout={1000} classNames='flip' nodeRef={cardRef}>
+            <div ref={cardRef} className='card'>
+              <div className="card-back">
+                <LoadingComponent text="Checking ..." hidden={checkState !== OTPStatus.CHECKING}></LoadingComponent>
+              </div>              
+              <div className="card-front">
+              {checkState !== OTPStatus.SUCCESS ? (
+                <div className="dt-otp-component-main-wrapper" style={checkState !== OTPStatus.INPUT ? { display: 'none' } : {}}>
+                <div className="dt-otp-component-title">Enter the code ...</div>
+                <div ref={inputWrapperRef} className="dt-otp-component-input-wrapper">
+                    <div className="dt-otp-component-input-wrapper">
+                    {
+                      inputCode.map(function(value, index){
+                        return <input className='dt-otp-component-input-input' onChange={(event) => onChange(event, index)} value={inputCode[index]} maxLength={1} onKeyDown={(event) => inputKeyDown(event, index)}></input>;
+                      })
+                    }
+                    </div>
                 </div>
-            </div>
-            <button className='dt-otp-component-submit-button'>SUBMIT</button>
-          </div>
-        </div>
-
-        <div className="flippable-card-container">
-          <CSSTransition in={showFront} timeout={300} classNames='flip' nodeRef={cardRef}>
-            <div ref={cardRef} className='card' onClick={() => {
-              setShowFront(!showFront);
-            }}>
-              <div className="card-back">Back</div>
-              <div className="card-front">Front</div>
+                <button className='dt-otp-component-submit-button'>SUBMIT</button>
+              </div>
+              ) : (
+                <SuccessComponent text="Approved!" hidden={checkState !== OTPStatus.SUCCESS}></SuccessComponent>
+              )}
+              </div>
             </div>
           </CSSTransition>
         </div>
@@ -113,5 +112,3 @@ function OTPComponent(props: any) {
   }
   
   export default OTPComponent;
-
-  // 1234
