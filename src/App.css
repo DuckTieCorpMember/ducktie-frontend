@@ -15,6 +15,7 @@ button, input[type="submit"], input[type="reset"], input {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   background: linear-gradient(180deg, #D29FE3 0%, #5775C2 100%);
 
