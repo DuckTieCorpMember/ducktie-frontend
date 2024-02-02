@@ -53,38 +53,7 @@
     height: 42px;
     flex-shrink: 0;
 
-    border-radius: 20px;
-    background: #7EBC68;
-
-    color: #FFF;
-    text-align: center;
     font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-
-.dt-otp-component-submit-button:hover{
-    background-color: #659653;
-    /* color: #cacaca; */
-    transition: 0.7;
-}
-
-.dt-otp-component-submit-button:focus{
-    background-color: #659653;
-    /* color: #cacaca; */
-    transition: 0.7;
-    border: 1px solid rgb(150, 222, 124);
-}
-
-.dt-otp-component-submit-button:active{
-    background-color: #88b15a;
-
-
-    -webkit-box-shadow: inset 1px 1px 5px #33333359;
-    -moz-box-shadow:    inset 1px 1px 5px #33333359;
-    box-shadow:         inset 1px 1px 5px #33333359;
-    transition: 0.7;
 }
 
 .dt-otp-component-title{

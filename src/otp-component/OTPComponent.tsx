@@ -40,7 +40,6 @@ function OTPComponent(props: any) {
     }, [inputCode, checkState, isValid])
 
     const inputKeyDown = useCallback( async (event: any, id: number) => {
-      console.log("KeyDown", event);
       let newInput = [...inputCode];
 
       if(event.ctrlKey && event.key === "v"){
@@ -92,12 +91,12 @@ function OTPComponent(props: any) {
                     <div className="dt-otp-component-input-wrapper">
                     {
                       inputCode.map(function(value, index){
-                        return <input className='dt-otp-component-input-input' onChange={(event) => onChange(event, index)} value={inputCode[index]} maxLength={1} onKeyDown={(event) => inputKeyDown(event, index)}></input>;
+                        return <input key={index} className='dt-otp-component-input-input' onChange={(event) => onChange(event, index)} value={inputCode[index]} maxLength={1} onKeyDown={(event) => inputKeyDown(event, index)}></input>;
                       })
                     }
                     </div>
                 </div>
-                <button className='dt-otp-component-submit-button'>SUBMIT</button>
+                <button className='button button-success dt-otp-component-submit-button'>SUBMIT</button>
               </div>
               ) : (
                 <SuccessComponent text="Approved!" hidden={checkState !== OTPStatus.SUCCESS}></SuccessComponent>

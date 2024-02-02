@@ -21,3 +21,36 @@ button, input[type="submit"], input[type="reset"], input {
 
   font-family: Inter, sans-serif;
 }
+
+.button{
+  text-align: center;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.button-success{
+  border-radius: 20px;
+  background: #7EBC68;
+
+  color: #FFF;
+}
+
+.button-success:hover{
+  background-color: #7EBC68;
+  -webkit-box-shadow: inset 1px 1px 5px #ddf7d4a5;
+  -moz-box-shadow:    inset 1px 1px 5px #ddf7d4a5;
+  box-shadow:         inset 1px 1px 5px #ddf7d4a5;
+  /* color: #cacaca; */
+  transition: 0.7;
+}
+
+.button-success:active{
+  background-color: #88b15a;
+
+
+  -webkit-box-shadow: inset 1px 1px 5px #33333359;
+  -moz-box-shadow:    inset 1px 1px 5px #33333359;
+  box-shadow:         inset 1px 1px 5px #33333359;
+  transition: 0.7;
+}
