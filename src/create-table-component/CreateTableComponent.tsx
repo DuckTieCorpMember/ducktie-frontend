@@ -11,50 +11,38 @@ function CreateTableComponent() {
     const [height, setHeight] = useState(100);
     const [width, setWidth] = useState(170);
 
-    const [data, setData] = useState([
-        {
-            "":"" 
-        }
-    ]);
-    const [columns, setColumns] = useState([
-        {
-            name: "",
-            colType: columnTypes[2]
-        }
-    ]);
-
-    const isStoreEmpty = useCallback(() => {
-        return true;
-    },[])
+    const [dataSet, setDataSet] = useState<any[]>([])
 
     const generateNewTable = useCallback((event: React.MouseEvent<HTMLElement>) => {
-        const button = (event.target as HTMLElement);
-        const container = button.parentElement;
+        (event.target as HTMLElement).hidden = true;
 
-        button.hidden = true;
+        setDataSet([{
+            "Header 1": ""   
+        }]);
 
-        console.log("table generation", container);
+        // generateStoredTable();
     }, [])
 
     const generateNewRow = () => {
         return (
-            <div className="table-creator-container" style={{height: height, width: width}}>
-                <button className="button button-success add-table-button" onClick={generateNewTable}>+</button>
-            </div>
+            <button className="button button-success add-table-button" onClick={generateNewTable}>+</button>
         )
     }
 
     const generateStoredTable = () => {
+        // console.log("Table generator");
         return (<div>Stored</div>)
     }
 
     return (
       <div>
-        {isStoreEmpty() ? (
-            generateNewRow()
-        ) : (
-            generateStoredTable()
-        )}
+        <div className="table-creator-container" style={{height: height, width: width}}>
+            {dataSet.length === 0 ? (
+                generateNewRow()
+            ) : (
+                generateStoredTable()
+            )}
+        </div>
       </div>
     );
   }
