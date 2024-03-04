@@ -1,36 +1,74 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./ProgressBar.css";
 
 function ProgressBar(props:any) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [filledPercentage, setFilledPercentage] = useState(0);
+  const maxWidth = props.dimensions.width;
+  const minWidth = 20;
 
-  const handleDrag = (e: any) => {
-    const { left, top, width, height } = e.target.getBoundingClientRect();
-    const x = e.clientX - left;
-    const y = e.clientY - top;
+  const [initialX, setInitialX] = useState(0);
+  const [isResizing, setIsResizing] = useState(false);
+  const [currentPercentage, setCurrentPercentage] = useState(0);
+  const [currentWidth, setCurrentWidth] = useState(0);
+  
+  const handleMouseDown = useCallback((e:React.MouseEvent) => {
+    setIsResizing(true);
+    // console.log("Mouse Down");
+    e.stopPropagation();
+  }, []);
 
-    // Calculate percentage filled
-    const percentageX = (x / width) * 100;
-    const percentageY = (y / height) * 100;
-    const filled = Math.min(100, Math.max(0, (percentageX + percentageY) / 2));
-    setFilledPercentage(filled);
+  const handleMouseUp = useCallback((e:React.MouseEvent) => {
+    if(isResizing){
+      const newWidth = e.clientX-initialX;
+      setCurrentWidth(newWidth);
+    }
 
-    // Update position (ensure it stays in bounds)
-    setPosition({
-      x: Math.min(width, Math.max(0, x)),
-      y: Math.min(height, Math.max(0, y))
-    });
-  };
+    setIsResizing(false);
+    // console.log("Mouse Up");
+    const currProgress = Math.ceil((100 * (currentWidth-minWidth+4))/(maxWidth-minWidth+4));
+    if(currentPercentage !== currProgress){
+      if(currentWidth < minWidth){
+        setCurrentPercentage(0);
+      } else if(currentWidth > maxWidth-10) {
+        setCurrentPercentage(100);
+      }else{
+        setCurrentPercentage(currProgress);
+      }
+    }
+  }, [currentPercentage, currentWidth, initialX, isResizing, maxWidth]);
+
+  const handleMouseMove = useCallback((e:any) => {
+    if (!isResizing) return;
+
+    const newWidth = e.clientX-initialX;
+    setCurrentWidth(newWidth);
+  },[initialX, isResizing]);
+
+  useEffect(()=>{
+    const element = document.getElementsByClassName('progress-bar-text')[0];
+    if (element) {
+      const rect = element.getBoundingClientRect();
+      const newX = rect.left-maxWidth/2+minWidth+2;
+      if(newX !== initialX)
+        setInitialX(newX);
+    }
+  },[maxWidth, initialX]);
 
   return (
-    <div className="progress-bar-container">
+    <div className="progress-bar-container"
+      onMouseMove={handleMouseMove}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}>
         <div className="progress-bar-bar" style={{
-          width: props.dimensions.width-10,
-          height: props.dimensions.height-30
-        }}>
+          minWidth: minWidth,
+          maxWidth: maxWidth,
+          left: initialX,
+          width: currentWidth,
+          height: props.dimensions.height-10,
+        }}
+        >
         </div>
-        <div className="progress-bar-text">25%</div>
+        <div className="progress-bar-text unselectable">{currentPercentage}%</div>
     </div>
   );
 }

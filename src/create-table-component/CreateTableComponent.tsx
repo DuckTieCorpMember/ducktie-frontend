@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import "./CreateTableComponent.css";
+import ProgressBar from "../utlities/ProgressBar/ProgressBar";
 
 function CreateTableComponent() {
     const [height, setHeight] = useState(100);
@@ -11,11 +12,11 @@ function CreateTableComponent() {
     const generateNewTable = useCallback((event: React.MouseEvent<HTMLElement>) => {
         (event.target as HTMLElement).hidden = true;
         setDataSet([{
-            Header1: "Row 1 H1",
-            Header2: "Row 1 H2"   
+            TaskName: "Row 1 H1",
+            Progress: "Row 1 H2"   
         },{
-            Header1: "Row 2 H1",
-            Header2: "Row 2 H2"
+            TaskName: "Row 2 H1",
+            Progress: "Row 2 H2"
         }]);
     }, [])
 
@@ -53,9 +54,18 @@ function CreateTableComponent() {
                             return <div key={index} className="table-creator-row">
                                 {
                                     Object.keys(dataSet[index]).map((key, jIndex) => {
-                                        return <div className="table-creator-cell" key={jIndex}>
-                                            <div>{data[key]}</div>
-                                        </div>
+                                        if(key === "Progress"){
+                                            return <div key={jIndex} className="table-creator-cell">
+                                                <ProgressBar dimensions={{
+                                                    width: 200,
+                                                    height: 50
+                                                }}></ProgressBar>
+                                            </div>
+                                        }else{
+                                            return <div className="table-creator-cell" key={jIndex}>
+                                                <div>{data[key]}</div>
+                                            </div>
+                                        }
                                     })
                                 }
                             </div>

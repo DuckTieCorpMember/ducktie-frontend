@@ -54,3 +54,12 @@ button, input[type="submit"], input[type="reset"], input {
   box-shadow:         inset 1px 1px 5px #33333359;
   transition: 0.7;
 }
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
