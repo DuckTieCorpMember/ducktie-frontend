@@ -6,6 +6,7 @@ import Service from './data';
 import OTPComponent from './otp-component/OTPComponent';
 import CreateTableComponent from './create-table-component/CreateTableComponent';
 import ProgressBar from './utlities/ProgressBar/ProgressBar';
+import ToDoComponent from './ToDoComponent/ToDoComponent';
 
 const service = new Service();
 
@@ -21,7 +22,9 @@ function App() {
       <br/>
       <div style={progressBarDims}>
         <ProgressBar dimensions={progressBarDims}></ProgressBar>
-      </div>      
+      </div> 
+      <br/>
+      <ToDoComponent></ToDoComponent>     
       <br/>
       <CreateTableComponent></CreateTableComponent>
     </div>
