@@ -48,7 +48,7 @@ function ProgressBar(props:any) {
     if (element) {
       const rect = element.getBoundingClientRect();
       const newX = rect.left-maxWidth/2+minWidth+2;
-      console.log(rect.left, newX);
+      // console.log(rect.left, newX);
       if(newX !== initialX)
         setInitialX(newX);
     }
